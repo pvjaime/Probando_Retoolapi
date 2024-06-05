@@ -1,10 +1,11 @@
-package perez.jaime.probandoretoolapi
+package perez.jaime.probandoretoolapi.view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import perez.jaime.probandoretoolapi.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
