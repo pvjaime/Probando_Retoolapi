@@ -19,11 +19,15 @@ class EmpresasViewModel : ViewModel() {
     //Declaraciones de LiveData dependiendo de lo que nececite la vistas
     //LiveData para la pantalla de lista de empresas
     val listaEmpresas = MutableLiveData<List<EmpresasResponse>>()
+
     //LiveData para el detalle e una empresa
     val detalleEmpresa = MutableLiveData<EmpresasResponse>()
 
+    //LiveData para los errores de la API
+    val errores = MutableLiveData<String>()
+
     //funcion que va a ir a buscar la lista de empresas a la API
-    fun listarEmpresas(){
+    fun listarEmpresas() {
         //Corrutina que va a ir a buscar la informacion
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -40,22 +44,30 @@ class EmpresasViewModel : ViewModel() {
                         response: Response<List<EmpresasResponse>> //La respuesta de la API
                     ) {
                         //vamos aver si la api me respondio bien
-                        if (response.isSuccessful){
+                        if (response.isSuccessful) {
                             val respuesta = response.body()
                             listaEmpresas.postValue(respuesta)
-                        }else{
+                        } else {
                             //Mostrar mensaje de error
+                            errores.postValue(
+                                "Error En la API - ${
+                                    response.errorBody().toString()
+                                }"
+                            )
                         }
                     }
+
                     //Metodo que se va a ejecuar si hay algun error
                     override fun onFailure(call: Call<List<EmpresasResponse>>, t: Throwable) {
-                            //Mostrar mensaje de error
+                        //Mostrar mensaje de error
+                        errores.postValue("Error De Falla - ${t.message}")
                     }
 
                 })
             } catch (e: Exception) {
                 //aqui si hay un error se ejecuta este codigo
                 e.printStackTrace()
+                errores.postValue("Error Interno - ${e.message}")
             }
         }
 
