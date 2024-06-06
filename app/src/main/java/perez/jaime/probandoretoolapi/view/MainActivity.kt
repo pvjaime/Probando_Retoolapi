@@ -3,6 +3,7 @@ package perez.jaime.probandoretoolapi.view
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +41,17 @@ class MainActivity : AppCompatActivity() {
             binding.listaEmpresas.adapter = adaptadorEmpresas
             binding.listaEmpresas.visibility = VISIBLE
             binding.progressBar.visibility = GONE
+        }
+        viewModelEmpresa.errores.observe(this) {
+            binding.listaEmpresas.visibility = GONE
+            binding.progressBar.visibility = GONE
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(it)
+                .setPositiveButton("OK") { dialog, id ->
+                    dialog.dismiss()
+                }
+            // Create the AlertDialog object and return it.
+            builder.create().show()
         }
         //Ejecucion desde el ViewModel
         viewModelEmpresa.listarEmpresas()

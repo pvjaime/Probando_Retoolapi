@@ -1,5 +1,6 @@
 package perez.jaime.probandoretoolapi.model.network
 
+import perez.jaime.probandoretoolapi.model.EmpresasDetalleResponse
 import perez.jaime.probandoretoolapi.model.EmpresasResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -15,5 +16,5 @@ interface ApiService {
 
     //Detalle de empresas
     @GET("empresas/{id_empresa}") //https://retoolapi.dev/cluuwe/empresas/9
-    fun detalleEmpresa(@Path("id_empresa") empresaCargar: Int): Call<EmpresasResponse>
+    fun detalleEmpresa(@Path("id_empresa") empresaCargar: Int): Call<EmpresasDetalleResponse>
 }

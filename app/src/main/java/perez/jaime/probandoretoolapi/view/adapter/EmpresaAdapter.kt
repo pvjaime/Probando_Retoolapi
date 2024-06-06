@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import perez.jaime.probandoretoolapi.R
 import perez.jaime.probandoretoolapi.databinding.FilaListaEmpresaBinding
 import perez.jaime.probandoretoolapi.model.EmpresasResponse
+import perez.jaime.probandoretoolapi.view.DatalleEmpresaFragment
 
 class EmpresaAdapter(private val listaEmpresas: List<EmpresasResponse>) :
     RecyclerView.Adapter<EmpresaAdapter.EmpresaViewHolder>() {
@@ -34,11 +36,7 @@ class EmpresaAdapter(private val listaEmpresas: List<EmpresasResponse>) :
         Picasso.get().load(empresa.logo).into(holder.binding.logoEmpresa)
         //Configurar el click
         holder.binding.root.setOnClickListener {
-            Toast.makeText(
-                holder.binding.root.context,
-                "Haciendo click en el elemento $position",
-                Toast.LENGTH_SHORT
-            ).show()
+            DatalleEmpresaFragment.newInstance(empresa.id)
         }
     }
 

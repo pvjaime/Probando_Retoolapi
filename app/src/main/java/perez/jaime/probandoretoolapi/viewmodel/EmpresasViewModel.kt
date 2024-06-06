@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import perez.jaime.probandoretoolapi.model.EmpresasDetalleResponse
 import perez.jaime.probandoretoolapi.model.EmpresasResponse
 import perez.jaime.probandoretoolapi.model.network.ApiService
 import perez.jaime.probandoretoolapi.model.network.RetrofitClass
@@ -21,7 +22,7 @@ class EmpresasViewModel : ViewModel() {
     val listaEmpresas = MutableLiveData<List<EmpresasResponse>>()
 
     //LiveData para el detalle e una empresa
-    val detalleEmpresa = MutableLiveData<EmpresasResponse>()
+    val detalleEmpresa = MutableLiveData<EmpresasDetalleResponse>()
 
     //LiveData para los errores de la API
     val errores = MutableLiveData<String>()
@@ -70,8 +71,55 @@ class EmpresasViewModel : ViewModel() {
                 errores.postValue("Error Interno - ${e.message}")
             }
         }
-
     }
 
-    //
+
+    /**
+     * Funcion que va a a llamar a la segunda API
+     */
+    fun obtenerDetalleEmpresa(idEmpresa: Int) {
+        //Corrutina que va a ir a buscar la informacion
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                //Llamar API
+                val retroIntancia = RetrofitClass.retrofit.create(ApiService::class.java)
+                //quien va a llamar a la API
+                val llamadaApi = retroIntancia.detalleEmpresa(idEmpresa)
+                //Llamar a la api para que nos devuelva los datos
+                llamadaApi.enqueue(object : Callback<EmpresasDetalleResponse> {
+                    //Aca va la respuesta de la llamada de la API
+                    //Metodo que se va a ejecutar si esta bien
+                    override fun onResponse(
+                        call: Call<EmpresasDetalleResponse>, //la llamada a la API
+                        response: Response<EmpresasDetalleResponse> //La respuesta de la API
+                    ) {
+                        //vamos aver si la api me respondio bien
+                        if (response.isSuccessful) {
+                            val respuesta = response.body()
+                            detalleEmpresa.postValue(respuesta)
+                        } else {
+                            //Mostrar mensaje de error
+                            errores.postValue(
+                                "Error En la API - ${
+                                    response.errorBody().toString()
+                                }"
+                            )
+                        }
+                    }
+
+                    //Metodo que se va a ejecuar si hay algun error
+                    override fun onFailure(call: Call<EmpresasDetalleResponse>, t: Throwable) {
+                        //Mostrar mensaje de error
+                        errores.postValue("Error De Falla - ${t.message}")
+                    }
+
+                })
+            } catch (e: Exception) {
+                //aqui si hay un error se ejecuta este codigo
+                e.printStackTrace()
+                errores.postValue("Error Interno - ${e.message}")
+            }
+
+        }
+    }
 }
