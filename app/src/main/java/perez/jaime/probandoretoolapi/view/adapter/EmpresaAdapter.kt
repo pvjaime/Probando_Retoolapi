@@ -10,6 +10,8 @@ import perez.jaime.probandoretoolapi.model.EmpresasResponse
 
 class EmpresaAdapter(private val listaEmpresas: List<EmpresasResponse>) :
     RecyclerView.Adapter<EmpresaAdapter.EmpresaViewHolder>() {
+
+
     class EmpresaViewHolder(val binding: FilaListaEmpresaBinding) :
         RecyclerView.ViewHolder(binding.root)
 
