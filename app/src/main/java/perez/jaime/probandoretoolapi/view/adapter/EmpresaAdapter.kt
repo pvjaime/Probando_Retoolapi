@@ -1,8 +1,9 @@
 package perez.jaime.probandoretoolapi.view.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import perez.jaime.probandoretoolapi.R
@@ -10,7 +11,7 @@ import perez.jaime.probandoretoolapi.databinding.FilaListaEmpresaBinding
 import perez.jaime.probandoretoolapi.model.EmpresasResponse
 import perez.jaime.probandoretoolapi.view.DatalleEmpresaFragment
 
-class EmpresaAdapter(private val listaEmpresas: List<EmpresasResponse>) :
+class EmpresaAdapter(private val listaEmpresas: List<EmpresasResponse>, val context: Context) :
     RecyclerView.Adapter<EmpresaAdapter.EmpresaViewHolder>() {
 
 
@@ -36,7 +37,10 @@ class EmpresaAdapter(private val listaEmpresas: List<EmpresasResponse>) :
         Picasso.get().load(empresa.logo).into(holder.binding.logoEmpresa)
         //Configurar el click
         holder.binding.root.setOnClickListener {
-            DatalleEmpresaFragment.newInstance(empresa.id)
+            var detalle = DatalleEmpresaFragment.newInstance(empresa.id)
+            val activity = it.context as AppCompatActivity
+            activity.supportFragmentManager.beginTransaction().replace(R.id.main, detalle)
+                .addToBackStack(null).commit()
         }
     }
 

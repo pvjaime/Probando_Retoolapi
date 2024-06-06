@@ -32,6 +32,19 @@ class DatalleEmpresaFragment : Fragment() {
         arguments?.let {
             idEmpresa = it.getInt(ID_EMPRESA)
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentDatalleEmpresaBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         /**
          * Configuraciones
          */
@@ -57,16 +70,6 @@ class DatalleEmpresaFragment : Fragment() {
         }
         //Ejecucion desde el ViewModel
         viewModelEmpresa.obtenerDetalleEmpresa(idEmpresa)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDatalleEmpresaBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-        return binding.root
     }
 
     companion object {
