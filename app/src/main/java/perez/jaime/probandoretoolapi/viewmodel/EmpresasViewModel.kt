@@ -2,7 +2,6 @@ package perez.jaime.probandoretoolapi.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -10,7 +9,6 @@ import kotlinx.coroutines.launch
 import perez.jaime.probandoretoolapi.ClaseApp.Companion.database
 import perez.jaime.probandoretoolapi.model.EmpresasDetalleResponse
 import perez.jaime.probandoretoolapi.model.EmpresasResponse
-import perez.jaime.probandoretoolapi.model.db.AppDatabase
 import perez.jaime.probandoretoolapi.model.db.EmpresaEntidad
 import perez.jaime.probandoretoolapi.model.network.ApiService
 import perez.jaime.probandoretoolapi.model.network.RetrofitClass
@@ -55,16 +53,16 @@ class EmpresasViewModel : ViewModel() {
                             //Lista que vamos a enviar a la Base de datos local
                             val listaEmpresaMapeada = ArrayList<EmpresaEntidad>()
                             if (respuesta != null) {
-                                for (empresa in respuesta){
-                                    listaEmpresaMapeada.add(
-                                        EmpresaEntidad(
-                                            id_api = empresa.id,
-                                            nombre_empresa = empresa.nombre_empresa,
-                                            url_logo = empresa.logo,
-                                            ubicacion_empresa = empresa.ubicacion,
-                                            fecha_fundacion = empresa.fecha_fundacion
-                                        )
+                                for (empresa in respuesta) {
+                                    val empresaAGuardar = EmpresaEntidad(
+                                        id_api = empresa.id,
+                                        nombre_empresa = empresa.nombre_empresa,
+                                        url_logo = empresa.logo,
+                                        ubicacion_empresa = empresa.ubicacion,
+                                        fecha_fundacion = empresa.fecha_fundacion
                                     )
+                                    //Agrego la empresa a la lista que voy a enviar a la base de datos
+                                    listaEmpresaMapeada.add(empresaAGuardar)
                                 }
                                 GlobalScope.launch {
                                     //Vamos a vaciar la base de datos antes de insertar la nueva data
@@ -72,7 +70,9 @@ class EmpresasViewModel : ViewModel() {
                                     //Vamos a hacer la insercion
                                     database.empresaDao().insertarData(listaEmpresaMapeada)
                                     //Vamos a obtener las empresas
-                                    listaEmpresas.postValue(database.empresaDao().obeterEmpresasDB())
+                                    listaEmpresas.postValue(
+                                        database.empresaDao().obeterEmpresasDB()
+                                    )
                                 }
                             }
                         } else {
