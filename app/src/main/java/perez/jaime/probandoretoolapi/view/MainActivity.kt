@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity() {
         //Configurar el RecyclerView
         binding.listaEmpresas.layoutManager = LinearLayoutManager(this)
         //Configurar el Adapter
-        var adaptadorEmpresas = EmpresaAdapter(listOf(), this)
+        var adaptadorEmpresas = EmpresaAdapter(listOf())
         binding.listaEmpresas.adapter = adaptadorEmpresas
         //Configurar el Observador
         viewModelEmpresa.listaEmpresas.observe(
             this
         ) { datosEmpresa ->
-            adaptadorEmpresas = EmpresaAdapter(datosEmpresa, this)
+            adaptadorEmpresas = EmpresaAdapter(datosEmpresa)
             binding.listaEmpresas.adapter = adaptadorEmpresas
             binding.listaEmpresas.visibility = VISIBLE
             binding.progressBar.visibility = GONE

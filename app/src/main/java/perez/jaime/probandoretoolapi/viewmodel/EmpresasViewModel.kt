@@ -2,11 +2,16 @@ package perez.jaime.probandoretoolapi.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import perez.jaime.probandoretoolapi.ClaseApp.Companion.database
 import perez.jaime.probandoretoolapi.model.EmpresasDetalleResponse
 import perez.jaime.probandoretoolapi.model.EmpresasResponse
+import perez.jaime.probandoretoolapi.model.db.AppDatabase
+import perez.jaime.probandoretoolapi.model.db.EmpresaEntidad
 import perez.jaime.probandoretoolapi.model.network.ApiService
 import perez.jaime.probandoretoolapi.model.network.RetrofitClass
 import retrofit2.Call
@@ -19,7 +24,7 @@ import retrofit2.Response
 class EmpresasViewModel : ViewModel() {
     //Declaraciones de LiveData dependiendo de lo que nececite la vistas
     //LiveData para la pantalla de lista de empresas
-    val listaEmpresas = MutableLiveData<List<EmpresasResponse>>()
+    val listaEmpresas = MutableLiveData<List<EmpresaEntidad>>()
 
     //LiveData para el detalle e una empresa
     val detalleEmpresa = MutableLiveData<EmpresasDetalleResponse>()
@@ -47,7 +52,29 @@ class EmpresasViewModel : ViewModel() {
                         //vamos aver si la api me respondio bien
                         if (response.isSuccessful) {
                             val respuesta = response.body()
-                            listaEmpresas.postValue(respuesta)
+                            //Lista que vamos a enviar a la Base de datos local
+                            val listaEmpresaMapeada = ArrayList<EmpresaEntidad>()
+                            if (respuesta != null) {
+                                for (empresa in respuesta){
+                                    listaEmpresaMapeada.add(
+                                        EmpresaEntidad(
+                                            id_api = empresa.id,
+                                            nombre_empresa = empresa.nombre_empresa,
+                                            url_logo = empresa.logo,
+                                            ubicacion_empresa = empresa.ubicacion,
+                                            fecha_fundacion = empresa.fecha_fundacion
+                                        )
+                                    )
+                                }
+                                GlobalScope.launch {
+                                    //Vamos a vaciar la base de datos antes de insertar la nueva data
+                                    database.empresaDao().borrarDB()
+                                    //Vamos a hacer la insercion
+                                    database.empresaDao().insertarData(listaEmpresaMapeada)
+                                    //Vamos a obtener las empresas
+                                    listaEmpresas.postValue(database.empresaDao().obeterEmpresasDB())
+                                }
+                            }
                         } else {
                             //Mostrar mensaje de error
                             errores.postValue(

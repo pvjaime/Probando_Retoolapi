@@ -18,10 +18,10 @@ private const val ID_EMPRESA = "idEmpresa"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [DatalleEmpresaFragment.newInstance] factory method to
+ * Use the [DetalleEmpresaFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DatalleEmpresaFragment : Fragment() {
+class DetalleEmpresaFragment : Fragment() {
     private var idEmpresa: Int = 0
 
     private var _binding: FragmentDatalleEmpresaBinding? = null
@@ -82,7 +82,7 @@ class DatalleEmpresaFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(idEmpresa: Int) =
-            DatalleEmpresaFragment().apply {
+            DetalleEmpresaFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ID_EMPRESA, idEmpresa)
                 }
