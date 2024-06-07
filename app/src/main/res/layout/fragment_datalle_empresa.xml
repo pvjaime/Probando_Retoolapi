@@ -29,7 +29,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:text="Nombre Empresa"
+            android:text="@string/nombre_empresa"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:text="Ubicacion"
+            android:text="@string/ubicacion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtEmpresa" />
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:text="Hacer Algo"
+            android:text="@string/hacer_algo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

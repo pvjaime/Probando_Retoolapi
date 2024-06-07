@@ -63,10 +63,33 @@ class DetalleEmpresaFragment : Fragment() {
         }
         //Configurar el click del boton
         binding.haceAlgo.setOnClickListener {
+            /* Abrir URL
             val url = "http://www.google.com"
             val i = Intent(Intent.ACTION_VIEW)
             i.setData(Uri.parse(url))
             startActivity(i)
+
+            //Compartir algo
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.setType("text/plain")
+            intent.putExtra(Intent.EXTRA_TEXT, "Hello, this is some text to share.")
+            startActivity(Intent.createChooser(intent, "Share via"))
+
+            //Email
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.setType("text/html")
+            intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com")
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
+            intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.")
+            startActivity(Intent.createChooser(intent, "Send Email"))*/
+
+            //Enviar Email
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:") // solo las aplicaciones de correo deben manejar esto
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("correo@hola.com"))
+                putExtra(Intent.EXTRA_SUBJECT, "Asunto del correo")
+            }
+            startActivity(intent)
         }
         //Ejecucion desde el ViewModel
         viewModelEmpresa.obtenerDetalleEmpresa(idEmpresa)

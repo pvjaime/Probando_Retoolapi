@@ -2,4 +2,10 @@
     <string name="app_name">Probando Retoolapi</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lista_de_empresas">Lista de Empresas</string>
+    <string name="nombre">Nombre</string>
+    <string name="ubicacion">Ubicacion</string>
+    <string name="fecha_fundacion">Fecha Fundacion</string>
+    <string name="nombre_empresa">Nombre Empresa</string>
+    <string name="hacer_algo">Hacer Algo</string>
 </resources>
