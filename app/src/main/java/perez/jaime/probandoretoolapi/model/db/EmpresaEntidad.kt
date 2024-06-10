@@ -16,4 +16,8 @@ data class EmpresaEntidad(
     val url_logo: String,
     val ubicacion_empresa: String,
     val fecha_fundacion: String
-)
+){
+    override fun toString(): String {
+        return this.nombre_empresa
+    }
+}

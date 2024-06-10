@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     //Agregando las depedencias
@@ -70,4 +69,9 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.1")
     //Picasso
     implementation ("com.squareup.picasso:picasso:2.8")
+    //Testing
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
+
 }
